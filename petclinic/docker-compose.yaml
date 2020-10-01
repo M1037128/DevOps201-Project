@@ -1,1 +1,7 @@
-s is 
+version: '2'
+services:
+  petclinic:
+    image: m1037128/petclinic:$BUILD_NUMBER
+    build: . 
+    ports:
+      - '30080:8082'
