@@ -1,1 +1,49 @@
-i
+node {
+
+  stage('Git-Checkout') {
+   git 'https://github.com/M1037128/DevOps201-Project.git'
+  }
+    
+ def project_path="petclinic"
+ 
+ dir(project_path) {
+    
+  stage('Maven-Clean') {
+   sh label: '', script: 'mvn clean'
+  }
+    
+ stage('Maven-Compile') {
+   sh label: '', script: 'mvn compile'
+  }
+  
+   stage('Maven-Test') {
+   sh label: '', script: 'mvn test'
+  }
+  
+   stage('Maven-Package') {
+   sh label: '', script: 'mvn package'
+  }
+ 
+    stage('Docker-Stage-Deployment') {
+    sh label: '', script: 'docker-compose up -d --build'
+    }
+    
+    stage('Docker image push to dockerhub'){
+     	script {
+     	docker.withRegistry( '', 'docker') {
+     	sh 'docker push m1037128/petclinic:$BUILD_NUMBER'
+     	}
+ 	  }
+ 	}
+ 	
+ 	stage('Docker image pull from dockerhub'){
+ 	    script {
+     	docker.withRegistry( '', 'docker') {
+     	sh 'docker pull m1037128/petclinic:$BUILD_NUMBER'
+     	}
+ 	  }
+ 	}
+ } 
+ 
+}
+ 
