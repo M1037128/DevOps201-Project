@@ -4,4 +4,4 @@ services:
     image: m1037128/petclinic:$BUILD_NUMBER
     build: . 
     ports:
-      - '8085:8080'
+      - '8086:8080'
