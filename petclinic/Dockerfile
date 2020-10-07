@@ -1,3 +1,6 @@
-FROM tomcat:8.0
-MAINTAINER M1037128
-COPY target/petclinic.war /usr/local/tomcat/webapps/
+FROM tomcat:9.0
+RUN echo 'Deploying War on Server'
+RUN rm -rf /usr/local/tomcat/webapps/*
+COPY target/*.war /usr/local/tomcat/webapps/ROOT.war
+EXPOSE 8086
+CMD ["catalina.sh", "run"]
